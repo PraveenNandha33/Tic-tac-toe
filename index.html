@@ -1,32 +1,248 @@
-link rel="stylesheet" href="style.css" rel='stylesheet' type='text/css'
-form.board
-  div.boxes
-    - for i in (1..9)
-      input.x type='checkbox' id='x-#{i}'
-    - for i in (1..9)
-      input.o type='checkbox' id='o-#{i}'
-    div.controls
-      div.control.-x
-        div.control-labels
-          - for i in (1..9)
-            label.x for='x-#{i}'
-      div.control.-o
-        div.control-labels
-          - for i in (1..9)
-            label.o for='o-#{i}'
-    div.done
-      div.lead Winner is
-      div.winner
-      button type='reset' Again
-    div.tie 
-      span It's a tie
-      button type='reset' Again
-    div.turn
-      div.turn-x
-      div.turn-o
-  h1 
-    span Tic
-    span Tac
-    span Toe
+<!DOCTYPE html>
 
-  
+<html lang="en">
+
+<head>
+
+  <meta charset="UTF-8">
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <link rel="stylesheet" href="style.css" type="text/css" media="screen">
+
+  <title>Tic Tac Toe Game</title>
+
+</head>
+
+<body>
+
+  <div class="main">
+
+    <div class="container">
+
+      <div class="table">
+
+        <p>Player <span id="player"> ' X ' </span> Your Turn</p>
+
+        <table align="center">
+
+          <tr>
+
+            <td><div class="box"></div></td>
+
+            <td><div class="box"></div></td>
+
+            <td><div class="box"></div></td>
+
+          </tr>
+
+          <tr>
+
+            <td><div class="box"></div></td>
+
+            <td><div class="box"></div></td>
+
+            <td><div class="box"></div></td>
+
+          </tr>
+
+          <tr>
+
+            <td><div class="box"></div></td>
+
+            <td><div class="box"></div></td>
+
+            <td><div class="box"></div></td>
+
+          </tr>
+
+          </table>
+
+          <h2 id="message">Player <span id="winner"></span> Wins</h2>
+
+          <button id="restart">Restart Game</button>
+
+      </div>
+
+    </div>
+
+  </div>
+
+<script type="text/javascript">
+
+  let currentPlayer = "x";
+
+  let gameStatus = "Game On";
+
+  const boxes = document.getElementsByClassName("box");
+
+  for(let i = 0; i < boxes.length; i++)
+
+  {
+
+    boxes[i].addEventListener("click", function() {
+
+      if(boxes[i].innerHTML.trim() == "" && gameStatus == "Game On") {
+
+        boxes[i].innerHTML = currentPlayer;
+
+        currentPlayer = currentPlayer == "x" ? "o" : "x";
+
+        document.getElementById("player").innerHTML = currentPlayer.toUpperCase();
+
+        if(
+
+          boxes[0].innerHTML == boxes[1].innerHTML &&
+
+          boxes[1].innerHTML == boxes[2].innerHTML &&
+
+          boxes[0].innerHTML.trim() != ""
+
+        ) {
+
+          showWinner(0, 1, 2);
+
+        } else if(
+
+          boxes[3].innerHTML == boxes[4].innerHTML &&
+
+          boxes[4].innerHTML == boxes[5].innerHTML &&
+
+          boxes[3].innerHTML.trim() != ""
+
+        ) {
+
+          showWinner(3, 4, 5);
+
+        } else if(
+
+          boxes[6].innerHTML == boxes[7].innerHTML &&
+
+          boxes[7].innerHTML == boxes[8].innerHTML &&
+
+          boxes[6].innerHTML.trim() != ""
+
+        ) {
+
+          showWinner(6, 7, 8);
+
+        } else if(
+
+          boxes[0].innerHTML == boxes[3].innerHTML &&
+
+          boxes[3].innerHTML == boxes[6].innerHTML &&
+
+          boxes[0].innerHTML.trim() != ""
+
+        ) {
+
+          showWinner(0, 3, 6);
+
+        } else if(
+
+          boxes[1].innerHTML == boxes[4].innerHTML &&
+
+          boxes[4].innerHTML == boxes[7].innerHTML &&
+
+          boxes[1].innerHTML.trim() != ""
+
+        ) {
+
+          showWinner(1, 4, 7);
+
+        } else if(
+
+          boxes[2].innerHTML == boxes[5].innerHTML &&
+
+          boxes[5].innerHTML == boxes[8].innerHTML &&
+
+          boxes[2].innerHTML.trim() != ""
+
+        ) {
+
+          showWinner(2, 5, 8);
+
+        } else if(
+
+
+          boxes[0].innerHTML == boxes[4].innerHTML &&
+
+          boxes[4].innerHTML == boxes[8].innerHTML &&
+
+          boxes[0].innerHTML.trim() != ""
+
+        ) {
+
+          showWinner(0, 4, 8);
+
+        } else if(
+
+          boxes[2].innerHTML == boxes[4].innerHTML &&
+
+          boxes[4].innerHTML == boxes[6].innerHTML &&
+
+          boxes[2].innerHTML.trim() != ""
+
+        ) {
+
+          showWinner(2, 4, 6);
+
+        }
+
+      }
+
+    });
+
+  }
+
+  document.getElementById("restart").addEventListener("click", function() {
+
+    for(let i = 0; i< boxes.length; i++) {
+
+      boxes[i].innerHTML = "";
+
+      boxes[i].style.backgroundColor = "#dee9ec";
+
+      boxes[i].style.color = "black";
+
+    }
+
+    currentPlayer = "x";
+
+    document.getElementById("message").style.display = "none";
+
+    document.getElementById("player").innerHTML = "X";
+
+    gameStatus = "Game On";
+
+  });
+
+  function showWinner(x, y, z)
+
+  {
+
+    boxes[x].style.background = "#0d8b70";
+
+    boxes[x].style.color = "white";
+
+    boxes[y].style.background = "#0d8b70";
+
+    boxes[y].style.color = "white";
+
+    boxes[z].style.background = "#0d8b70";
+
+    boxes[z].style.color = "white";
+
+    document.getElementById("winner").innerHTML = currentPlayer == "x" ? "O" : "x";
+
+    document.getElementById("message").style.display = "block";
+
+    gameStatus = "Game Over";
+
+  }
+
+</script>
+
+</body>
+
+</html>
